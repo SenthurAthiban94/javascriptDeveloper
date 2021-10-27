@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .field{
+            padding:8px;
+        }
+        input, select{
+            margin-left:16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+    <div id="root1"></div>
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        // HTML Form elements behaves different from that of the DOM elements in React by keeping some internal state naturally. 
+        /* There are 2 type of components while handling forms in React
+        *  1. Controlled Components  - Input elements like text,textarea, select maintains their own internal state by the React component itself and updates on user's input.
+        *  2. Uncontrolled Components - Input type file value is read only and it is called uncontrolled Component.
+        */
+        class Form extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    username: '',
+                    password: '',
+                    role: 'customer',
+                }
+                this.handlChange = this.handlChange.bind(this);
+                this.submitHandler = this.submitHandler.bind(this);
+            }
+            submitHandler(e){
+                e.preventDefault();
+            }
+            handlChange(e){
+                this.setState({
+                    [e.target.name]: e.target.value
+                })
+            }
+            render(){
+                return <form onSubmit={this.submitHandler}>
+                    <div className="field">
+                        Username:
+                        <input 
+                            type="text"
+                            name="username"
+                            value={this.state.username}
+                            onChange={this.handlChange}
+                            required
+                        />
+                    </div>
+                    <div className="field">
+                        Password:
+                        <input 
+                            type="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handlChange}
+                            required
+                        />
+                    </div>
+                    <div className="field">
+                        Role:
+                        <select name="role" value={this.state.role} onChange={this.handlChange}>
+                            <option value="admin">admin</option>
+                            <option value="customer">customer</option>
+                            <option value="seller">seller</option>
+                        </select>
+                    </div>
+                    <input aria-label="submit" type="submit"/>
+                    <br/><br/>
+                    {JSON.stringify(this.state)}
+                </form>
+            }
+        }
+        ReactDOM.render(<Form/>,document.getElementById('root'));
+        
+        // passing value as null or undefined will make the field editable in controlled components
+        function handleChange(){}
+        ReactDOM.render(<input type="text" aria-label="username" value="I am editable after 3sec" onChange={handleChange}/>,document.getElementById('root1'));
+        setTimeout(()=>{
+            ReactDOM.render(<input type="text" aria-label="username" value={null} onChange={handleChange}/>,document.getElementById('root1'));
+        },3000);
+    </script>
+</body>
+</html>

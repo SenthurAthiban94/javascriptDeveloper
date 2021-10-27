@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        /*
+        *   Event handling is almost same as normal DOM events except with a small syntatic change.
+        *   - In React elements events are specified on camel case rather than lower case.
+        *   - In React elements events are passed with the event handler functions rather than string in normal DOM elements
+        */
+        function Form(){
+            function submit(e){ // SytheticEvent not normal native event.
+                e.preventDefault();
+                console.log('Form is submitted!');
+            }
+            return <form onSubmit={submit}>   {/* onSubmit - event passed with eventhandler function submit*/}
+                <input type="text" name="username" aria-label="username" placeholder="username" required/>
+                <input type="password" name="password" aria-label="password" placeholder="Password" required/>
+                <input type="Submit" aria-label="submit Form"/>
+            </form>
+        }
+
+        /*
+        *   Class Implementation and binding functions. Whenever () brackets are not used we have to bind it explicitly
+        *   Binding Functions can be done using 3 ways
+        *   - Binding the class methods in the constructor -- (Preferred way)
+        *   - Class Field Syntax - Using Arrow functions to define class methods -- (Alternate way but experimental)
+        *   - Using Arrow Functions in Callback within render - Not Prefered as each time creates different callback function which might rerender child components when passed as props 
+        */
+
+        // Binding in constructor
+        class Form extends React.Component{
+            constructor(props){
+                super(props);
+                // Preferred binding
+                this.submit = this.submit.bind(this);
+            }
+            submit(e){ // SytheticEvent not normal native event.
+                e.preventDefault();
+                console.log('Form is submitted!');
+            }
+            render(){
+                return <form onSubmit={this.submit}>   
+                <input type="text" name="username" aria-label="username" placeholder="username" required/>
+                <input type="password" name="password" aria-label="password" placeholder="Password" required/>
+                <input type="Submit" aria-label="submit Form"/>
+            </form>
+            }
+        }
+
+        // Binding while class method declaration
+        class Form extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            // Experimental and not Preferred
+            submit = (e)=>{ // SytheticEvent not normal native event.
+                e.preventDefault();
+                console.log('Form is submitted!');
+            }
+            render(){
+                return <form onSubmit={this.submit}>   
+                <input type="text" name="username" aria-label="username" placeholder="username" required/>
+                <input type="password" name="password" aria-label="password" placeholder="Password" required/>
+                <input type="Submit" aria-label="submit Form"/>
+            </form>
+            }
+        }
+
+        // Binding on event callback on render method
+        class Form extends React.Component{
+            constructor(props){
+                super(props);
+                this.submit = this.submit.bind(this);
+            }
+            submit(e){ // SytheticEvent not normal native event.
+                e.preventDefault();
+                console.log('Form is submitted!');
+            }
+            render(){
+                return <form onSubmit={(e)=>this.submit(e)}>   
+                <input type="text" name="username" aria-label="username" placeholder="username" required/>
+                <input type="password" name="password" aria-label="password" placeholder="Password" required/>
+                <input type="Submit" aria-label="submit Form"/>
+            </form>
+            }
+        }
+
+        // Parameters could be Passed by the following ways
+        // <form onSubmit={(e)=>this.submit(e, id)}>
+        // <form onSubmit={this.submit.bind(this,id)}>
+
+
+        ReactDOM.render(<Form/>,document.getElementById('root'));
+    </script>
+</body>
+</html>

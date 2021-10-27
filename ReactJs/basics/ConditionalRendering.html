@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- Loading React 
+            Note: when deploying, replace "development.js" with "production.min.js". -->
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <!-- Loading Babel for JSX Support -->
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <style>
+            .warning{
+                background-color:rgb(255, 196, 0);
+                color:white;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Root of the Application -->
+        <div id="root"></div>
+
+        <!-- With JSX
+            Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+        <script type="text/babel">
+            //  Returning null from the render method will make React ignore the rendering though it doesn't affect the lifecyclemethods. ie: componentDidUpdate() will still be called
+            class WarningBanner extends React.Component{
+                render(){
+                    return !this.props.warn ? null : <div className="warning">
+                        I am a warning message!!
+                    </div>
+                }
+            }
+            class LoginBtn extends React.Component{
+                render(){
+                    return <button onClick={this.props.handleLogin}>
+                        Login
+                    </button>   
+                }
+            }
+            class LogoutBtn extends React.Component{
+                render(){
+                    return <button onClick={this.props.handleLogout}>
+                        Logout
+                    </button>   
+                }
+            }
+            class App extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.handleLogin = this.handleLogin.bind(this);
+                    this.handleLogout = this.handleLogout.bind(this);
+                    this.toggleWarn = this.toggleWarn.bind(this);
+                    this.state = {
+                        isLoggedIn: false,
+                        warn:false,
+                    }
+                }
+                handleLogin(){
+                    this.setState({
+                        isLoggedIn: true
+                    })
+                }
+                toggleWarn(){
+                    this.setState({
+                        warn:!this.state.warn,
+                    })
+                }
+                handleLogout(){
+                    this.setState({
+                        isLoggedIn: false
+                    });
+                }
+                render(){
+                    const Btn = !this.state.isLoggedIn ? <LoginBtn handleLogin={this.handleLogin}/> : <LogoutBtn handleLogout={this.handleLogout}/>;
+                    return <div>
+                        { Btn }
+                        <button onClick={this.toggleWarn}>Toggle Warnings</button>
+                        <br/>
+                        <br/>
+                        <WarningBanner warn={this.state.warn}/>
+                        <br/>
+                        {JSON.stringify(this.state)}
+                    </div>
+                }
+            }
+
+            ReactDOM.render(<App/>,document.getElementById('root'));
+        </script>
+    </body>
+</html>

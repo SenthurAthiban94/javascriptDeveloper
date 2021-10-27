@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        // Components are just javascript functions that returns an react element describing what to be displayed on the UI.
+        // They are reusable, independent pieces of the UI 
+        // Components could be defined in to ways Functional component & Class Component.
+        
+        // Functional Component
+        function WelcomeFunctionalComponent(){
+            return <div>I am a Functional Component</div>
+        }
+        // Class Component
+        class WelcomeClassComponent extends React.Component{
+            render(){
+                return <div>I am a class Component</div>
+            }
+        }
+
+        // When React Sees a User Defined Component it passes JSX attributes & children as a single object called Props
+        function WelcomeFunctionalComponentwithProps(props){
+            return <div>{props.text}</div>
+        }
+        class WelcomeClassComponentwithProps extends React.Component{
+            constructor(props){
+                super(props); // if this is not been called then this.props will be undefined in the constructor
+                console.log(this.props);
+            }
+            render(){
+                console.log(this.props);
+                return <div>{this.props.text}</div>
+            }
+        }
+
+        // Props are always readOnly and never be modified.
+        // Pure functions
+        function sum(a,b){
+            return a+b;
+        }
+        // This function is called pure function as it does not try to modify its input and gives the same result for the same input.
+        // Impure functions
+        function withdraw(account,amount){
+            account.total-=amount;
+        }
+        // This function is called impure function as it modifies its own input.
+
+        // Though React is flexible it follows a single strict rule of 
+        // All React components should act like a pure functions with respect to their props.
+
+
+        const App = ()=>{
+            return <React.Fragment>
+                    <WelcomeFunctionalComponent/>
+                    <WelcomeClassComponent/>
+                    <WelcomeFunctionalComponentwithProps text="I am a Functional Prop Text"/>
+                    <WelcomeClassComponentwithProps text="I am a Class Prop Text"/>
+                </React.Fragment>
+        }
+        ReactDOM.render(<App/>,document.getElementById('root'));
+    </script>
+</body>
+</html>

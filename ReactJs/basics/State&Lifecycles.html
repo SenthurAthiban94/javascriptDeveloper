@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        // function Timer(props){
+        //     return <div>Current Time {props.date.toLocaleTimeString()}</div>;
+        // }
+        // setInterval(()=>{
+        //     // Even if we create an element for whole UI tree, React updates only the text node whose content has been changed in our case its the time.
+        //     ReactDOM.render(<Timer date={new Date()}/>, document.getElementById('root'));
+        // },1000);
+
+        /* 
+        *   Convert this example to class & add Lifecycles
+        *   
+        *   Lifecycles order would be like the following
+        *   
+        *   constructor
+        *   getDerivedStateFromProps
+        *   render
+        *   componentDidMount (mounting) - when the element is mounted to the DOM
+        *   shouldComponentUpdate
+        *   componentDidUpdate
+        *   componentWillUnmount (unmounting) - when the element is to be destroyed from the DOM
+        *   
+        *   State
+        *   Do not modify directly other than using setState().
+        *   State Updates are always merged.
+        * 
+        *   State updates may be asynchronous so 
+        *   // Wrong usage
+        *   this.setState({
+        *       counter: this.state.counter + this.props.increment,
+        *   });
+        * 
+        *   // Right Usage
+        *   this.setState((state,props)=>({
+        *       counter: state.counter + props.increment,
+        *   }));
+        */
+        class Timer extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={
+                    date: new Date()
+                };
+            }
+            componentDidMount(){
+                this.timerId = setInterval(()=>this.tick(),1000);
+            }
+            componentWillUnmount(){
+                clearInterval(this.timerId);
+            }
+            tick(){
+                this.setState({
+                    date:new Date()
+                })
+            }
+            render(){
+                return <div>Current Time {this.state.date.toLocaleTimeString()}</div>;
+            }
+        }
+
+        // Each Timer Component Sets its own timer and updates it.
+        ReactDOM.render(<div>
+            <Timer/>
+            <Timer/>
+            <Timer/>
+        </div>, document.getElementById('root'));
+    </script>
+</body>
+</html>

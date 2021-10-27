@@ -1,0 +1,59 @@
+html {
+  background: gray;
+}
+
+body {
+  background: white;
+  height: 800px;
+  width: 800px;
+  margin: 80px auto;
+  padding: 30px;
+  border: 5px solid green;
+}
+
+.warning, .error, .success {
+  font-size: 16px;
+  background-color: whitesmoke;
+}
+
+.title {
+  text-align: center;
+  font-variant: small-caps;
+  background-color: orange;
+}
+.title h1 {
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+.warning {
+  color: yellow;
+}
+
+.chess {
+  width: 100%;
+  height: 100px;
+  float: left;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+.box--hover {
+  background-color: red;
+}
+
+.black {
+  background: green;
+}
+
+/*# sourceMappingURL=style.css.map */

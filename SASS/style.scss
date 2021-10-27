@@ -1,0 +1,46 @@
+@import "./partials/_partials.scss";
+
+.title {
+  text-align: center;
+  font-variant: small-caps;
+  background-color: $title-background;
+  h1 {
+    font-weight: bold;
+  }
+
+}
+
+.success {
+  @extend %message;
+  color: green;
+}
+
+.error {
+  @extend %message;
+  color: red;
+}
+
+.warning {
+  @extend %message;
+  color: yellow;
+}
+
+.chess {
+  width: 100%;
+  @include position(100px,left);
+}
+
+.box {
+  width: 100px;
+  @include position();
+  // &:hover {
+  //   background-color: red;
+  // }
+  &--hover {
+    background-color: red;
+  }
+}
+
+.black {
+  background: $primary-color;
+}

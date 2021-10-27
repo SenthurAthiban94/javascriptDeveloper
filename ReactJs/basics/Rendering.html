@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        
+        function App(){
+            return <div>Current Time {new Date().toLocaleTimeString()}</div>;
+        }
+        // Elements are the smallest building blocks of react app.
+        // React Elements are immutable which means if they are created their children, props or attributes could not be modified.
+        // Only way to update is to create new element with the updated values and pass it to render method.
+        // Also react Dom only updates what is exactly necessary.
+        // ReactDOM compares the element and its children to previous one and updates only if it changes.
+        setInterval(()=>{
+            // Even if we create an element for whole UI tree, React updates only the text node whose content has been changed in our case its the time.
+            ReactDOM.render(<App/>, document.getElementById('root'));
+        },1000);
+    </script>
+</body>
+</html>

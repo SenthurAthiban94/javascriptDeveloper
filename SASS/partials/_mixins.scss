@@ -1,0 +1,9 @@
+// @mixin position {
+//   height: 100px;
+//   float: left;
+// }
+
+@mixin position($height:100px,$float:left) {
+  height: $height;
+  float: $float;
+}

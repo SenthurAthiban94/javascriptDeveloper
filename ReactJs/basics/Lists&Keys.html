@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Loading React 
+        Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Loading Babel for JSX Support -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body,html{
+            margin:0;
+        }
+        .listItem{
+            background-color: rgb(218, 218, 226);
+        }
+        .listItem > span{
+            padding:12px;
+            line-height: 48px;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Root of the Application -->
+    <div id="root"></div>
+
+    <!-- With JSX
+         Using babel with <script type="text/babel"> should not be used for production based projects its just for experimental or demo projects.-->
+    <script type="text/babel">
+        // Key helps the react to identify which element has been modified,added or removed in an iteration of components.
+        // Key should be unique across the siblings
+        // Key should assigned to the root level elements in an iteration
+        class ListItem extends React.Component{
+            render(){
+                
+                return this.props.item ? <div className="listItem">
+                    <span>{this.props.item.id}</span>
+                    <span>{this.props.item.assigned}</span>
+                    <span>{this.props.item.task}</span>
+                </div> : null;
+            }
+        }
+        class App extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    todos: [
+                        {
+                            id: 1,
+                            assigned: 'Senthur',
+                            task: 'Explain List & Fragments'
+                        },
+                        {
+                            id: 2,
+                            assigned: 'Athiban',
+                            task: 'Explain keys'
+                        }
+                    ],
+                }
+            }
+            render(){
+                return this.state.todos.map((todo)=>{
+                    return <ListItem key={todo.id} item={todo}/>
+                })
+            }
+        }
+        ReactDOM.render(<App/>,document.getElementById('root'));
+    </script>
+</body>
+</html>
